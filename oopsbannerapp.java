@@ -1,102 +1,65 @@
-/**
- * BannerAppUC7
- * Displays the word OOPS using character patterns stored in an inner class.
- */
-public class oopsbannerapp{
+import java.util.HashMap;
+import java.util.Map;
 
-    /**
-     * Inner static class to store a character and its banner pattern
-     */
-    static class CharacterPatternMap {
-        private char character;
-        private String[] pattern;
+public class oopsbannerapp {
 
-        /**
-         * Constructor
-         * @param character the letter
-         * @param pattern 7-line banner pattern
-         */
-        public CharacterPatternMap(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
+    // Method to build and return the map of character patterns
+    public static Map<Character, String[]> buildCharacterMap() {
+        Map<Character, String[]> map = new HashMap<>();
 
-        /**
-         * Getter for character
-         */
-        public char getCharacter() {
-            return character;
-        }
+        map.put('O', new String[]{
+                " *** ",
+                "*   *",
+                "*   *",
+                "*   *",
+                " *** "
+        });
 
-        /**
-         * Getter for pattern
-         */
-        public String[] getPattern() {
-            return pattern;
-        }
+        map.put('P', new String[]{
+                "**** ",
+                "*   *",
+                "**** ",
+                "*    ",
+                "*    "
+        });
+
+        map.put('S', new String[]{
+                " ****",
+                "*    ",
+                " *** ",
+                "    *",
+                "**** "
+        });
+
+        return map;
     }
 
-    // Utility methods to create patterns
-    static String[] getOPattern() {
-        return new String[]{
-                " ***  ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                "*   * ",
-                " ***  "
-        };
-    }
+    // Method to display banner text
+    public static void displayBanner(String text, Map<Character, String[]> map) {
 
-    static String[] getPPattern() {
-        return new String[]{
-                "***** ",
-                "*   * ",
-                "*   * ",
-                "***** ",
-                "*     ",
-                "*     ",
-                "*     "
-        };
-    }
+        int rows = 5;  // height of characters
 
-    static String[] getSPattern() {
-        return new String[]{
-                " *****",
-                "*     ",
-                "*     ",
-                " **** ",
-                "     *",
-                "     *",
-                "***** "
-        };
-    }
-
-    public static void main(String[] args) {
-
-        // Array of CharacterPatternMap objects
-        CharacterPatternMap[] letters = {
-                new CharacterPatternMap('O', getOPattern()),
-                new CharacterPatternMap('P', getPPattern()),
-                new CharacterPatternMap('S', getSPattern())
-        };
-
-        String word = "OOPS";
-
-        // Build banner line by line
-        for (int row = 0; row < 7; row++) {
+        for (int i = 0; i < rows; i++) {
             StringBuilder line = new StringBuilder();
 
-            for (char ch : word.toCharArray()) {
-                for (CharacterPatternMap map : letters) {
-                    if (map.getCharacter() == ch) {
-                        line.append(map.getPattern()[row]);
-                    }
+            for (char ch : text.toCharArray()) {
+                String[] pattern = map.get(ch);
+                if (pattern != null) {
+                    line.append(pattern[i]).append("  ");
                 }
             }
 
             System.out.println(line);
         }
+    }
+
+    // Main method
+    public static void main(String[] args) {
+
+        Map<Character, String[]> bannerMap = buildCharacterMap();
+
+        String word = "OOPS";
+
+        displayBanner(word, bannerMap);
     }
 }
